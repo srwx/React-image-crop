@@ -4,9 +4,9 @@ import "./App.css"
 export default function App() {
   return (
     <>
-      <AddImg />
-      <AddImg />
-      <AddImg />
+      <AddImg no="1" />
+      <AddImg no="2" />
+      <AddImg no="3" />
     </>
   )
 }

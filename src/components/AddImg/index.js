@@ -37,7 +37,10 @@ function CropImgPopup({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onImageLoaded={initCropSize}
-        onComplete={(c) => setCompletedCrop(c)}
+        onComplete={(c) => {
+          console.log(c)
+          setCompletedCrop(c)
+        }}
       />
       <div className="menuSection">
         <button
@@ -62,7 +65,7 @@ function CropImgPopup({
   )
 }
 
-export default function App() {
+export default function AddImg({ no }) {
   const [isPopup, setIsPopup] = useState(false)
   const [upImg, setUpImg] = useState()
   const [crop, setCrop] = useState()
@@ -78,7 +81,7 @@ export default function App() {
 
     const image = imgRef.current
     const canvas = canvasRef.current
-    const crop = completedCrop
+    const crop = finalCrop
 
     const scaleX = image.naturalWidth / image.width
     const scaleY = image.naturalHeight / image.height
@@ -115,32 +118,37 @@ export default function App() {
   }
 
   return (
-    <div>
-      <input
-        type="file"
-        accept="image/jpeg, image/png"
-        onChange={onSelectFile}
-      />
-      {isPopup ? (
-        <CropImgPopup
-          upImg={upImg}
-          setUpImg={setUpImg}
-          crop={crop}
-          setCrop={setCrop}
-          completedCrop={completedCrop}
-          setCompletedCrop={setCompletedCrop}
-          setFinalCrop={setFinalCrop}
-          imgRef={imgRef}
-          setIsPopup={setIsPopup}
-        />
-      ) : null}
-      <canvas
-        ref={canvasRef}
-        style={{
-          width: Math.round(completedCrop?.width ?? 0),
-          height: Math.round(completedCrop?.height ?? 0),
-        }}
-      ></canvas>
-    </div>
+    <>
+      {finalCrop ? (
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: Math.round(completedCrop?.width ?? 0),
+            height: Math.round(completedCrop?.height ?? 0),
+          }}
+        ></canvas>
+      ) : (
+        <>
+          <input
+            type="file"
+            accept="image/jpeg, image/png"
+            onChange={onSelectFile}
+          />
+          {isPopup ? (
+            <CropImgPopup
+              upImg={upImg}
+              setUpImg={setUpImg}
+              crop={crop}
+              setCrop={setCrop}
+              completedCrop={completedCrop}
+              setCompletedCrop={setCompletedCrop}
+              setFinalCrop={setFinalCrop}
+              imgRef={imgRef}
+              setIsPopup={setIsPopup}
+            />
+          ) : null}
+        </>
+      )}
+    </>
   )
 }
