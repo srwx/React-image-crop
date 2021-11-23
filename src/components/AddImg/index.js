@@ -16,6 +16,7 @@ function CropImgPopup({
   setFinalCrop,
   imgRef,
   setIsPopup,
+  inputRef,
 }) {
   const initCropSize = (img) => {
     imgRef.current = img
@@ -55,6 +56,7 @@ function CropImgPopup({
         <button
           className="cancel"
           onClick={() => {
+            inputRef.current.value = ""
             setIsPopup(false)
           }}
         >
@@ -71,6 +73,7 @@ export default function AddImg({ no }) {
   const [crop, setCrop] = useState()
   const [completedCrop, setCompletedCrop] = useState(null)
   const [finalCrop, setFinalCrop] = useState()
+  const inputRef = useRef(null)
   const imgRef = useRef(null)
   const canvasRef = useRef(null)
 
@@ -133,6 +136,7 @@ export default function AddImg({ no }) {
             type="file"
             accept="image/jpeg, image/png"
             onChange={onSelectFile}
+            ref={inputRef}
           />
           {isPopup ? (
             <CropImgPopup
@@ -145,6 +149,7 @@ export default function AddImg({ no }) {
               setFinalCrop={setFinalCrop}
               imgRef={imgRef}
               setIsPopup={setIsPopup}
+              inputRef={inputRef}
             />
           ) : null}
         </>
